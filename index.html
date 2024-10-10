@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Voice Clone - Clone Your Voice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f9fc;
+        }
+
+        header {
+            background-color: #4a90e2;
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .upload-area {
+            border: 2px dashed #ccc;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 20px;
+            background-color: #fafafa;
+        }
+
+        .upload-area:hover {
+            background-color: #f0f0f0;
+        }
+
+        select, input[type="text"], button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            background-color: #4a90e2;
+            color: #fff;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #3f7dc3;
+        }
+
+        .waveform {
+            width: 100%;
+            height: 50px;
+            background-color: #d3e6f8;
+            margin: 20px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #4a90e2;
+            color: #fff;
+            margin-top: 20px;
+        }
+
+        .footer-links {
+            color: #fff;
+            text-decoration: none;
+            padding: 0 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Clone Your Voice</h1>
+    <p>Speak with any voice you choose.</p>
+</header>
+
+<div class="container">
+    <div class="upload-area" onclick="document.getElementById('fileInput').click();">
+        Drag and drop an audio file here or click to upload.
+    </div>
+    <input type="file" id="fileInput" accept="audio/*" style="display: none;">
+    
+    <label for="languageSelect">Select Language</label>
+    <select id="languageSelect">
+        <option value="en">English</option>
+        <option value="zh-cn">中文</option>
+        <option value="es">Español</option>
+    </select>
+    
+    <div class="waveform">
+        <!-- Here would be the waveform animation -->
+    </div>
+    
+    <button onclick="playAudio()">Play Cloned Voice</button>
+</div>
+
+<section class="container">
+    <h2>Subscribe Today</h2>
+    <p>Get updates on the latest voice cloning technology.</p>
+    <input type="text" placeholder="First Name">
+    <input type="text" placeholder="Last Name">
+    <input type="text" placeholder="Email Address">
+    <button type="submit">Subscribe</button>
+</section>
+
+<footer>
+    <p>&copy; 2024 Voice Clone Project | <a href="#" class="footer-links">Documentation</a> | <a href="#" class="footer-links">Contact</a> | <a href="#" class="footer-links">Social Media</a></p>
+</footer>
+
+<script>
+    function playAudio() {
+        alert('This would play the cloned audio');
+    }
+</script>
+
+</body>
+</html>
