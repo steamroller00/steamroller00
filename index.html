@@ -3,135 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Voice Clone - Clone Your Voice</title>
+    <title>Voice Clone - Upload or Record Audio</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
             margin: 0;
             padding: 0;
-            background-color: #f7f9fc;
         }
-
-        header {
-            background-color: #4a90e2;
-            padding: 20px;
-            text-align: center;
-            color: #fff;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-        }
-
         .container {
             max-width: 800px;
             margin: 30px auto;
             padding: 20px;
             background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-
-        .upload-area {
-            border: 2px dashed #ccc;
-            padding: 30px;
+        h1 {
             text-align: center;
-            cursor: pointer;
-            margin-bottom: 20px;
-            background-color: #fafafa;
+            color: #333;
         }
-
-        .upload-area:hover {
+        .upload-area, .record-area {
+            padding: 20px;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .upload-area:hover, .record-area:hover {
             background-color: #f0f0f0;
         }
-
-        select, input[type="text"], button {
+        button {
+            padding: 10px 20px;
+            background-color: #4a90e2;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #3f7dc3;
+        }
+        .hidden {
+            display: none;
+        }
+        .audio-player {
+            margin-top: 20px;
+        }
+        select, input[type="file"] {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
             border-radius: 5px;
             border: 1px solid #ddd;
         }
-
-        button {
-            background-color: #4a90e2;
-            color: #fff;
-            border: none;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #3f7dc3;
-        }
-
-        .waveform {
-            width: 100%;
-            height: 50px;
-            background-color: #d3e6f8;
-            margin: 20px 0;
-        }
-
-        footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #4a90e2;
-            color: #fff;
-            margin-top: 20px;
-        }
-
-        .footer-links {
-            color: #fff;
-            text-decoration: none;
-            padding: 0 10px;
-        }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>Clone Your Voice</h1>
-    <p>Speak with any voice you choose.</p>
-</header>
-
 <div class="container">
+    <h1>Voice Clone</h1>
+
+    <!-- File Upload Section -->
     <div class="upload-area" onclick="document.getElementById('fileInput').click();">
-        Drag and drop an audio file here or click to upload.
+        <p>Drag and drop an audio file here, or click to upload.</p>
+        <input type="file" id="fileInput" accept="audio/*" class="hidden" onchange="loadFile(event)">
     </div>
-    <input type="file" id="fileInput" accept="audio/*" style="display: none;">
-    
-    <label for="languageSelect">Select Language</label>
-    <select id="languageSelect">
-        <option value="en">English</option>
-        <option value="zh-cn">中文</option>
-        <option value="es">Español</option>
-    </select>
-    
-    <div class="waveform">
-        <!-- Here would be the waveform animation -->
+
+    <!-- Recording Section -->
+    <div class="record-area">
+        <button id="startRecord">Start Recording</button>
+        <button id="stopRecord" class="hidden">Stop Recording</button>
     </div>
-    
-    <button onclick="playAudio()">Play Cloned Voice</button>
+
+    <!-- Audio Player -->
+    <audio id="audioPlayer" class="audio-player" controls></audio>
 </div>
 
-<section class="container">
-    <h2>Subscribe Today</h2>
-    <p>Get updates on the latest voice cloning technology.</p>
-    <input type="text" placeholder="First Name">
-    <input type="text" placeholder="Last Name">
-    <input type="text" placeholder="Email Address">
-    <button type="submit">Subscribe</button>
-</section>
-
-<footer>
-    <p>&copy; 2024 Voice Clone Project | <a href="#" class="footer-links">Documentation</a> | <a href="#" class="footer-links">Contact</a> | <a href="#" class="footer-links">Social Media</a></p>
-</footer>
-
 <script>
-    function playAudio() {
-        alert('This would play the cloned audio');
+    let mediaRecorder;
+    let audioChunks = [];
+    const startRecordButton = document.getElementById('startRecord');
+    const stopRecordButton = document.getElementById('stopRecord');
+    const audioPlayer = document.getElementById('audioPlayer');
+
+    // File Upload Handler
+    function loadFile(event) {
+        const file = event.target.files[0];
+        const url = URL.createObjectURL(file);
+        audioPlayer.src = url;
     }
+
+    // Start Recording
+    startRecordButton.addEventListener('click', () => {
+        navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+            mediaRecorder = new MediaRecorder(stream);
+            mediaRecorder.start();
+            audioChunks = [];
+            mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+            mediaRecorder.onstop = () => {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                const audioUrl = URL.createObjectURL(audioBlob);
+                audioPlayer.src = audioUrl;
+                audioPlayer.classList.remove('hidden');
+            };
+            startRecordButton.classList.add('hidden');
+            stopRecordButton.classList.remove('hidden');
+        }).catch(err => console.error("Microphone access denied!", err));
+    });
+
+    // Stop Recording
+    stopRecordButton.addEventListener('click', () => {
+        mediaRecorder.stop();
+        startRecordButton.classList.remove('hidden');
+        stopRecordButton.classList.add('hidden');
+    });
 </script>
 
 </body>
