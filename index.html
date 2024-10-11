@@ -58,6 +58,16 @@
             border-radius: 5px;
             border: 1px solid #ddd;
         }
+        #displayBox {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.5;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-top: 20px;
+            background-color: #f9f9f9;
+        }
     </style>
 </head>
 <body>
@@ -77,6 +87,14 @@
         <button id="stopRecord" class="hidden">Stop Recording</button>
     </div>
 
+    <!-- Repair Button -->
+    <div style="text-align: center; margin-top: 20px;">
+        <button id="repairButton">修复</button>
+    </div>
+
+    <!-- Display Box -->
+    <div id="displayBox" class="hidden"></div>
+
     <!-- Audio Player -->
     <audio id="audioPlayer" class="audio-player" controls></audio>
 </div>
@@ -87,6 +105,8 @@
     const startRecordButton = document.getElementById('startRecord');
     const stopRecordButton = document.getElementById('stopRecord');
     const audioPlayer = document.getElementById('audioPlayer');
+    const repairButton = document.getElementById('repairButton');
+    const displayBox = document.getElementById('displayBox');
 
     // File Upload Handler
     function loadFile(event) {
@@ -118,6 +138,21 @@
         mediaRecorder.stop();
         startRecordButton.classList.remove('hidden');
         stopRecordButton.classList.add('hidden');
+    });
+
+    // Repair Button Handler
+    repairButton.addEventListener('click', () => {
+        const repairContent = `
+            Sweeney's department store was having its 20th-anniversary celebration on May 3rd with an enormous sales promotion.
+            Certain sections of the store were having tremendous sales, especially the dress department, the jewelry department, 
+            and the furniture department. Workmen were moving busily around, carrying lumber, sawing, and hammering. They were 
+            creating signs, displays, and shelving for the products going on sale. A newspaper campaign was planned in which the 
+            products would be featured. The store owners hoped that customers would come to celebrate the 20 years of service to 
+            the community and also take advantage of the bargains offered in many departments. They were planning to give away 
+            door prizes on each one of the seven floors.
+        `;
+        displayBox.innerHTML = repairContent;
+        displayBox.classList.remove('hidden');
     });
 </script>
 
