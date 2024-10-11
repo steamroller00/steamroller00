@@ -7,96 +7,223 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f6f8;
+            background: linear-gradient(135deg, #ece9e6, #ffffff);
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        .title-container {
+            width: 100%;
+            background-color: #4a90e2;
+            color: #ffffff;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            border-bottom: 3px solid #6a9df8;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         .container {
-            max-width: 800px;
-            margin: 30px auto;
-            padding: 20px;
+            display: flex;
+            width: 90%;
+            max-width: 1000px;
             background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        .upload-area, .record-area {
+            border-radius: 12px; /* 12像素圆角 */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            overflow: hidden;
+            margin-top: 40px;
+            border: 3px solid #4a90e2; /* 蓝色边框 */
+            flex-direction: column;
+            align-items: center;
+            }
+
+        .content-area {
+            display: flex;
+            width: 100%;
             padding: 20px;
-            border: 2px dashed #ccc;
-            border-radius: 8px;
+        }
+        .left-half, .right-half {
+            flex: 1;
+            padding: 20px;
+        }
+        .left-half {
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .right-half {
+            background-color: #fff;
+            text-align: center;
+        }
+        .action-area {
+            padding: 15px;
+            border: 2px solid #6a9df8;
+            border-radius: 10px;
             text-align: center;
             margin-bottom: 20px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+            width: 100%;
         }
-        .upload-area:hover, .record-area:hover {
+        .action-area:hover {
             background-color: #f0f0f0;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.15);
+        }
+        .action-area p {
+            margin: 10px 0;
+            font-size: 14px;
+            color: #666;
         }
         button {
-            padding: 10px 20px;
-            background-color: #4a90e2;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #6a9df8, #4a90e2);
             color: #fff;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            width: 100%;
+            max-width: 350px;
         }
         button:hover {
-            background-color: #3f7dc3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
         .hidden {
             display: none;
-        }
-        .audio-player {
-            margin-top: 20px;
-        }
-        select, input[type="file"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #ddd;
         }
         #displayBox {
             font-size: 16px;
             color: #333;
             line-height: 1.5;
             padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            border-radius: 12px;
             margin-top: 20px;
-            background-color: #f9f9f9;
+            background: linear-gradient(135deg, #6a9df8, #4a90e2);
+            color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            border: 1px solid #fff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            overflow-y: auto;
+        }
+        .title {
+        background-color: #ffffff; /* 背景色为白色 */
+        color: #333333; /* 文本颜色为深灰色 */
+        padding: 25px 30px; /* 加大内边距，四周留出更多空间 */
+        font-size: 16px; /* 设置字体大小为16像素 */
+        line-height: 1.8; /* 行间距为1.8倍字体大小，提升可读性 */
+        border-radius: 12px; /* 添加圆角，使其更柔和 */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 添加柔和的阴影，提升立体感 */
+        border: 1px solid #e0e0e0; /* 添加浅灰色边框，与页面和背景色搭配 */
+        margin-bottom: 20px; /* 底部留出20像素的间隔，与下方内容分开 */
+        width: 90%; /* 设置宽度为容器的90%，确保在各种屏幕尺寸下都较为美观 */
+        text-align: justify; /* 两端对齐文本，增强整洁感 */
+        }
+        .re-audio {
+            color: #333333; /* 文本颜色为深灰色 */
+            font-size: 16px; /* 设置字体大小为16像素 */
+            line-height: 1.8; /* 行间距为1.8倍字体大小，提升可读性 */
+            margin-top: 20px; /* 底部留出20像素的间隔，与下方内容分开 */
+        }
+        .audio-player {
+            width: 100%;
+            max-width: 300px;
+            margin-top: 20px;
+            border: 2px solid #6a9df8;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            height: 10px;
+            margin-top: 10px;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background-color: #4a90e2;
+            transition: width 0.1s ease;
+        }
+        #timer {
+            font-size: 16px;
+            color: #333;
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            border: 2px solid #6a9df8;
+            display: none;
         }
     </style>
 </head>
 <body>
 
+<!-- 标题板块 -->
+
+
 <div class="container">
-    <h1>Voice Clone</h1>
-
-    <!-- File Upload Section -->
-    <div class="upload-area" onclick="document.getElementById('fileInput').click();">
-        <p>Drag and drop an audio file here, or click to upload.</p>
-        <input type="file" id="fileInput" accept="audio/*" class="hidden" onchange="loadFile(event)">
+    <div class="title-container">
+        Steamroller
     </div>
+    <!-- 内容区 -->
+    <div class="title">
+        <p>This demonstration showcases the interface of Steamroller, an end-to-end framework designed to improve speech accessibility by converting stuttered audio into fluent speech. While this demo does not utilize the actual model for live repairs, it provides a user-friendly interface with pre-set content for illustrative purposes.</p>
 
-    <!-- Recording Section -->
-    <div class="record-area">
-        <button id="startRecord">Start Recording</button>
-        <button id="stopRecord" class="hidden">Stop Recording</button>
+        <p>Steamroller systematically integrates Automatic Speech Recognition (ASR) with advanced AI techniques. The framework transcribes stuttered audio into text, accurately corrects any textual inaccuracies, and then re-synthesizes the refined text back into natural, stutter-free speech—while preserving the speaker's unique voice characteristics.</p>
+        
+        <p>To explore the interface, you can click the "Upload File" or "Start Recording" button below to add an audio sample, and then click the "Repair" button to initiate the repair process.</p>
     </div>
+    <div class="content-area">
+        <!-- 左半边内容（包含上传、录音、音频播放器） -->
+        <div class="left-half">
+            <div class="action-area">
+                <p id="statusText" class="status-text">Upload an audio file or start recording</p>
+                <button onclick="document.getElementById('fileInput').click();">Upload File</button>
+                <input type="file" id="fileInput" accept="audio/*" class="hidden" onchange="updateStatusText()">
+                <button id="startRecord" style="margin-top: 10px;">Start Recording</button>
+                <button id="stopRecord" class="hidden" style="margin-top: 10px;">Stop Recording</button>
+                
+                <!-- 计时器 -->
+                <div id="timer">00:00</div>
+            </div>
+            <!-- 音频播放器 -->
+            <div id="Repair" class="re-audio hidden">
+                Repair Audio
+            </div>
+            <audio id="repairAudio" class="audio-player hidden" controls>
+                <source src="repair.wav" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <div id="Original" class="re-audio hidden">
+                Original Audio
+            </div>
+            <audio id="originalAudio" class="audio-player hidden" controls>
+                <source src="original.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
 
-    <!-- Repair Button -->
-    <div style="text-align: center; margin-top: 20px;">
-        <button id="repairButton">修复</button>
+        <!-- 右半边内容（包含修复内容、按钮、进度条） -->
+        <div class="right-half">
+            <button id="repairButton">Repair</button>
+            <button id="toggleOriginalButton" class="hidden" style="margin-top: 10px;">repair text</button>
+            <div id="displayBox" class="hidden"></div>
+            <!-- 进度条 -->
+            <div class="progress-bar-container">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+        </div>
     </div>
-
-    <!-- Display Box -->
-    <div id="displayBox" class="hidden"></div>
-
-    <!-- Audio Player -->
-    <audio id="audioPlayer" class="audio-player" controls></audio>
 </div>
 
 <script>
@@ -104,56 +231,120 @@
     let audioChunks = [];
     const startRecordButton = document.getElementById('startRecord');
     const stopRecordButton = document.getElementById('stopRecord');
-    const audioPlayer = document.getElementById('audioPlayer');
     const repairButton = document.getElementById('repairButton');
+    const toggleOriginalButton = document.getElementById('toggleOriginalButton');
     const displayBox = document.getElementById('displayBox');
+    const repairAudio = document.getElementById('repairAudio');
+    const originalAudio = document.getElementById('originalAudio');
+    const repair = document.getElementById('repair');
+    const original = document.getElementById('original');
+    const progressBar = document.getElementById('progressBar');
+    const timer = document.getElementById('timer');
+    let recordingInterval;
+    let seconds = 0;
 
-    // File Upload Handler
-    function loadFile(event) {
-        const file = event.target.files[0];
-        const url = URL.createObjectURL(file);
-        audioPlayer.src = url;
+    const repairContent = `
+         Harriet spent most of her life helping to free her people. When she was young, she was a slave, but she ran away to the north. After that, she often went back to the south to help other slaves escape. She became a well-known leader of the Underground Railroad, a secret group of homes that gave food and shelter to runaway slaves. Harriet led groups of slaves on dangerous journeys to the north. She traveled only at night and hid during the day in basements and forests. At one point, there was a $40,000 reward for capturing her. Her brave actions helped hundreds of slaves find freedom. As she once said, I never lost a passenger.
+    `;
+
+    const OriginalContent = `
+         Harriet spent the most of her life helping to free her people. When she was the young, she was a slave, but she ran away to the north. After that, she often went back to the south to help other slaves escape. escape she became a well-known leader of the underground railroad a secret group of homes that give food and shelter to runaway slaves. Harriet led groups of lives on dangerous journeys to the earth. She traveled only at at at night and hide during the day in basements and forests. At one point there was a $40,000 reward for capturing her. Her brave actions helped hundreds of slaves find freedom. As she once said, I never lost a passenger.
+    `;
+
+    let showOriginal = false;
+
+    // 修复按钮处理
+    repairButton.addEventListener('click', () => {
+
+        
+        // 启动进度条
+        startProgressBar();
+    });
+
+    // 切换修复前/后的内容
+    toggleOriginalButton.addEventListener('click', () => {
+        showOriginal = !showOriginal;
+        if (showOriginal) {
+            displayBox.innerHTML = OriginalContent; // 显示修复前的内容
+            toggleOriginalButton.innerText = 'original text';
+        } else {
+            displayBox.innerHTML = repairContent; // 显示修复后的内容
+            toggleOriginalButton.innerText = 'repair text';
+        }
+    });
+
+    // 启动进度条
+    function startProgressBar() {
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += 20;
+            progressBar.style.width = progress + '%';
+            if (progress >= 100) {
+                clearInterval(interval);
+                repairAudio.classList.remove('hidden');
+                originalAudio.classList.remove('hidden');
+                displayBox.innerHTML = repairContent;
+                displayBox.classList.remove('hidden');
+                toggleOriginalButton.classList.remove('hidden');
+                original.classList.remove('hidden');
+                repair.classList.remove('hidden');
+                toggleOriginalButton.innerText = 'repair text';
+                showOriginal = false;
+            }
+        }, 1000); // 每秒更新进度
     }
 
-    // Start Recording
+    // 开始录音
     startRecordButton.addEventListener('click', () => {
         navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
             mediaRecorder = new MediaRecorder(stream);
             mediaRecorder.start();
             audioChunks = [];
             mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-            mediaRecorder.onstop = () => {
-                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                const audioUrl = URL.createObjectURL(audioBlob);
-                audioPlayer.src = audioUrl;
-                audioPlayer.classList.remove('hidden');
-            };
+
             startRecordButton.classList.add('hidden');
             stopRecordButton.classList.remove('hidden');
         }).catch(err => console.error("Microphone access denied!", err));
     });
 
-    // Stop Recording
+    // 停止录音
     stopRecordButton.addEventListener('click', () => {
         mediaRecorder.stop();
         startRecordButton.classList.remove('hidden');
         stopRecordButton.classList.add('hidden');
+
+        // 更新状态文本为录音完成
+        statusText.textContent = "Recording Completed";
     });
 
-    // Repair Button Handler
-    repairButton.addEventListener('click', () => {
-        const repairContent = `
-            Sweeney's department store was having its 20th-anniversary celebration on May 3rd with an enormous sales promotion.
-            Certain sections of the store were having tremendous sales, especially the dress department, the jewelry department, 
-            and the furniture department. Workmen were moving busily around, carrying lumber, sawing, and hammering. They were 
-            creating signs, displays, and shelving for the products going on sale. A newspaper campaign was planned in which the 
-            products would be featured. The store owners hoped that customers would come to celebrate the 20 years of service to 
-            the community and also take advantage of the bargains offered in many departments. They were planning to give away 
-            door prizes on each one of the seven floors.
-        `;
-        displayBox.innerHTML = repairContent;
-        displayBox.classList.remove('hidden');
-    });
+    // 计时器启动
+    function startTimer() {
+        seconds = 0;
+        recordingInterval = setInterval(() => {
+            seconds++;
+            timer.innerText = formatTime(seconds);
+        }, 1000);
+    }
+
+    // 停止计时器
+    function stopTimer() {
+        clearInterval(recordingInterval);
+        timer.innerText = "00:00";
+    }
+
+    // 格式化时间显示
+    function formatTime(sec) {
+        const minutes = Math.floor(sec / 60);
+        const seconds = sec % 60;
+        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    function updateStatusText() {
+        const filePath = fileInput.value.split('\\').pop();
+        statusText.textContent = `File Uploaded: ${filePath}`;
+    }
+
+
 </script>
 
 </body>
