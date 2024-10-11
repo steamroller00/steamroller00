@@ -236,8 +236,8 @@
     const displayBox = document.getElementById('displayBox');
     const repairAudio = document.getElementById('repairAudio');
     const originalAudio = document.getElementById('originalAudio');
-    const repair = document.getElementById('repair');
-    const original = document.getElementById('original');
+    const repair = document.getElementById('Repair');
+    const original = document.getElementById('Original');
     const progressBar = document.getElementById('progressBar');
     const timer = document.getElementById('timer');
     let recordingInterval;
@@ -286,7 +286,7 @@
                 displayBox.innerHTML = repairContent;
                 displayBox.classList.remove('hidden');
                 toggleOriginalButton.classList.remove('hidden');
-                original.classList.remove('hidden');
+                original.style.display = "block";
                 repair.classList.remove('hidden');
                 toggleOriginalButton.innerText = 'repair text';
                 showOriginal = false;
