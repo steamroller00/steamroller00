@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Voice Clone - Upload or Record Audio</title>
-    <script src="wavesurfer.min.js"></script>
+    <script src="js/wavesurfer.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -71,6 +71,16 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
             background-color: #f9f9f9;
+        }
+        .waveform-container:hover {
+            background-color: #f0f0f0;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.15);
+        }
+        .waveform-container p {
+            margin: 10px 0;
+            font-size: 14px;
+            color: #666;
+            flex-direction: column;
         }
         .waveform-container div.audio-description {
             font-size: 24px;
@@ -279,20 +289,43 @@
             display: none;
         }
         .displayBox {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.8;
+    padding: 30px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #a7d2ef, #d0e7f9); /* 渐变背景色 */
+    margin-top: 30px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* 添加柔和的阴影效果 */
+    border: 2px solid #a0cfee; /* 边框增强对比度 */
+    transition: all 0.3s ease;
+    overflow-y: auto;
+    min-height: 200px; /* 设置最小高度 */
+    word-wrap: break-word; /* 自动换行，避免文字溢出 */
+    max-height: 400px; /* 设置最大高度，避免内容太多时布局被撑开 */
+}
 
-        font-size: 16px;
-        color: #333;
-        line-height: 1.6;
-        padding: 25px;
-        border-radius: 50px;
-        background-color: #a7d2ef;
-        margin-top: 30px;
-        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-        overflow-y: auto;
-        min-height: 200px; /* 设置最小高度 */
-        word-wrap: break-word; /* 自动换行，避免文字溢出 */
-    }
+/* 鼠标悬停效果 */
+.displayBox:hover {
+    transform: scale(1.02); /* 增加轻微放大效果 */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* 增强阴影效果 */
+}
+
+/* 自定义滚动条样式 */
+.displayBox::-webkit-scrollbar {
+    width: 8px;
+}
+
+.displayBox::-webkit-scrollbar-thumb {
+    background-color: #4a90e2;
+    border-radius: 10px;
+}
+
+.displayBox::-webkit-scrollbar-track {
+    background-color: #e0e0e0;
+    border-radius: 10px;
+}
 
 
         /* From Uiverse.io by KSAplay */ 
@@ -378,6 +411,8 @@
             }
         }
 
+
+        
         /* 计时器美化 */
         #timer {
             font-size: 16px;
