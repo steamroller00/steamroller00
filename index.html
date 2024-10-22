@@ -224,7 +224,7 @@
         .content-area1 {
             flex-direction: column;
             display: flex;
-            width: 60%;
+            width: 70%;
             padding: 20px;
         }
         .left-half, .right-half {
@@ -238,10 +238,10 @@
             border-radius: 10px;
             text-align: center;
             margin-bottom: 20px;
-            min-width: 500px;
+
             transition: background-color 0.3s, box-shadow 0.3s;
             box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
-            width: 100%;
+            width: 60%;
             height: 200px;
         }
         .action-area:hover {
@@ -457,16 +457,13 @@
     background-color: #3a7bb0;
 }
 
-.content-area1 {
-    flex: 1; /* 使上传文件区域占据剩余空间 */
-}
 
 .example-btn {
     padding: 12px 30px;
     font-size: 18px;
-    width: 200px;
+    width: 150px;
     font-weight: bold;
-    margin: 15px;
+    margin-top: 20px;
     color: white;
     background: linear-gradient(135deg, #6a95ff, #4a70d2);
     border: none;
@@ -732,7 +729,7 @@ repairButton.addEventListener('click', async () => {
     // 如果修复正在进行，直接返回，阻止再次触发
     if (isInProgress) return;
     // 生成1到4之间的随机整数（包含1和4）
-    const randomIndex = Math.floor(Math.random() * 4) + 1;
+    const randomIndex = Math.floor(Math.random() * 4)+1;
     // 设置修复进行中状态
     isInProgress = true;
     repairButton.disabled = true; // 禁用按钮
@@ -753,7 +750,7 @@ repairButton.addEventListener('click', async () => {
         // 清除 displayBox1 和 displayBox2 中的原有文字内容
         displayBox1.textContent = '';
         displayBox2.textContent = '';
-        select_text(index + 1)
+        select_text(randomIndex)
         // 等待逐字显示完成
         await Promise.all([
             typeText(OriginalContent, displayBox1),
