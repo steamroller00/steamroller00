@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Steamroller</title>
-    <script src="https://unpkg.com/wavesurfer.js"></script>
+    <title>Voice Clone - Upload or Record Audio</title>
+    <script src="js/wavesurfer.min.js"></script>
+    <script src="js/textContents.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,8 +17,6 @@
             justify-content: flex-start; /* 上下对齐 */
             align-items: center; /* 水平居中 */
             min-height: 100vh;
-
-            
             margin-bottom: 100px;
         }
         
@@ -239,7 +238,7 @@
             border-radius: 10px;
             text-align: center;
             margin-bottom: 20px;
-
+            min-width: 500px;
             transition: background-color 0.3s, box-shadow 0.3s;
             box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
             width: 100%;
@@ -305,7 +304,6 @@
     overflow-y: auto;
     min-height: 200px; /* 设置最小高度 */
     word-wrap: break-word; /* 自动换行，避免文字溢出 */
-    max-height: 400px; /* 设置最大高度，避免内容太多时布局被撑开 */
 }
 
 /* 鼠标悬停效果 */
@@ -429,6 +427,77 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
+        .content-area-wrapper {
+    display: flex;
+    width: 100%;
+    align-items: flex-start; /* 上下对齐 */
+    justify-content: flex-start; /* 水平方向上左对齐 */
+}
+
+.example-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-right: 20px; /* 按钮和上传区域之间的间距 */
+}
+
+.example-selector button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.example-selector button:hover {
+    background-color: #3a7bb0;
+}
+
+.content-area1 {
+    flex: 1; /* 使上传文件区域占据剩余空间 */
+}
+
+.example-btn {
+    padding: 12px 30px;
+    font-size: 18px;
+    width: 200px;
+    font-weight: bold;
+    margin: 15px;
+    color: white;
+    background: linear-gradient(135deg, #6a95ff, #4a70d2);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* 添加柔和的阴影效果 */
+    transition: all 0.3s ease; /* 平滑过渡效果 */
+}
+
+.example-btn:hover {
+    background: linear-gradient(135deg, #7faeff, #5273b8); /* 悬停时的渐变色 */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* 增强悬停时的阴影效果 */
+    transform: translateY(-3px); /* 悬停时轻微向上移动 */
+}
+
+.example-btn:active,
+.example-btn.selected {
+    background: linear-gradient(135deg, #5f80d8, #3657a5); /* 点击/选中时的渐变色 */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* 点击/选中时减少阴影 */
+    transform: translateY(1px); /* 点击/选中时轻微下移 */
+}
+
+.example-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(100, 150, 255, 0.4); /* 聚焦时添加外部阴影 */
+}
+
+
+
+
+
     </style>
 </head>
 <body>
@@ -444,26 +513,22 @@
 <!-- 标题板块 -->
       <!-- 标题行 -->
         <!-- 上方部分：标题和链接 -->
-        <div class="header">
-            <div class="title">Steamroller</div>
-            <div class="links">
-                <a href="https://sites.google.com/view/stuttering-automatic-repair/home" target="_blank">Home</a>
-                <a href="https://steamroller00.github.io/steamroller00/" target="_self">Demo</a>
-            </div>
-        </div>
         <!-- 下方部分：说明文本 -->
-        <div class="header-description" id="description">
-            <p>This demonstration showcases the interface of Steamroller, an end-to-end framework designed to improve speech accessibility by converting stuttered audio into fluent speech.</p>
 
-            <p>Steamroller systematically integrates Automatic Speech Recognition (ASR) with advanced AI techniques. The framework transcribes stuttered audio into text, accurately corrects any textual inaccuracies, and then re-synthesizes the refined text back into natural, stutter-free speech—while preserving the speaker's unique voice characteristics.</p>
-            
-            <p>Due to model operation cost constraints, this demonstration page does not provide real-time speech repair functionality. You can experience a pre-generated repaired audio by clicking the "Repair" button. This page is intended to demonstrate the framework's workflow and user interface features.</p>
-        </div>
 
     <!-- 上传区域 -->
 <div class="container" id="container1">
     <!-- 内容区 -->
     <div class="content-area1">
+        <div class="content-area-wrapper">
+            <!-- 示例选择按钮区域 -->
+            <div class="example-selector">
+                <button class="example-btn" onclick="selectExample(1)">Example 1</button>
+                <button class="example-btn" onclick="selectExample(2)">Example 2</button>
+                <button class="example-btn" onclick="selectExample(3)">Example 3</button>
+                <button class="example-btn" onclick="selectExample(4)">Example 4</button>
+            </div>
+                
             <div class="action-area">
                 <p id="statusText" class="status-text">Upload an audio file or start recording</p>
                 <p><button onclick="document.getElementById('fileInput').click();">Upload File</button></p>
@@ -568,15 +633,6 @@
     const displayBox1 = document.getElementById('displayBox1');
     const displayBox2 = document.getElementById('displayBox2');
 
-    const repairContent = `
-         Harriet spent most of her life helping to free her people. When she was young, she was a slave, but she r-ran away to the north. After that, she often went back to the south to help other slaves e-escape. She became a well-known leader of the Underground Railroad, a secret group of homes that gave food and shelter to runaway slaves. Harriet led groups of leaves on dangerous journeys to the north. She traveled only at night and hid during the day in basements and forests. At one point, there was a $40,000 reward for capturing her. Her brave actions helped hundreds of slaves find freedom. As she once said, I never lost a passenger.
-    `;
-
-    const OriginalContent = `
-         Harriet spent the most of her life helping to free her people. When she was the young, she was a slave, but she ran away to the north. After that, she often went back to the south to help other slaves escape. escape she became a well-known leader of the underground railroad a secret group of homes that give food and shelter to runaway slaves. Harriet led groups of lives on dangerous journeys to the earth. She traveled only at night and hide during the day in basements and forests. At one point there was a $40,000 reward for capturing her. Her brave actions helped hundreds of slaves find freedom. As she once said, I never lost a passenger.
-    `;
-
-    let showOriginal = false;
 
     // 开始录音
     startRecordButton.addEventListener('click', () => {
@@ -667,33 +723,50 @@ const wavesurfer2 = WaveSurfer.create({
   barWidth: 2,
 })
 
-    // 修复按钮处理
-    repairButton.addEventListener('click', () => {
-            // 显示加载动画
-            loader.style.display = 'flex';
+// 防止重复点击的标志变量
+let isInProgress = false;
+let repairContent=''
+let OriginalContent=''
+// 修复按钮处理
+repairButton.addEventListener('click', async () => {
+    // 如果修复正在进行，直接返回，阻止再次触发
+    if (isInProgress) return;
+    // 生成1到4之间的随机整数（包含1和4）
+    const randomIndex = Math.floor(Math.random() * 4) + 1;
+    // 设置修复进行中状态
+    isInProgress = true;
+    repairButton.disabled = true; // 禁用按钮
 
-            // 模拟加载动画，4秒后显示完成文本并隐藏加载动画
-            setTimeout(() => {
-                loader.style.display = 'none'; // 隐藏加载动画
-                wavesurfer2.load('repair.wav');
-                wavesurfer1.load('original.mp3');
-                        // 显示说明文字容器
-                displayBox1.style.display = 'block';
-                displayBox2.style.display = 'block';
+    // 显示加载动画
+    loader.style.display = 'flex';
 
-                // 清除 displayBox1 和 displayBox2 中的原有文字内容
-                displayBox1.textContent = '';
-                displayBox2.textContent = '';
-                // 同时开始显示两段文本
-                Promise.all([
-                    typeText(repairContent, displayBox1),
-                    typeText(OriginalContent, displayBox2)
-                ]).then(() => {
-                    console.log('Both texts finished typing!');
-                });
-            }, 3000);
+    // 模拟加载动画，4秒后显示完成文本并隐藏加载动画
+    setTimeout(async () => {
+        loader.style.display = 'none'; // 隐藏加载动画
+        wavesurfer2.load(`audio/repair_${randomIndex}.mp3`);
+        wavesurfer1.load(`audio/original_${randomIndex}.mp3`);
 
-        });
+        // 显示说明文字容器
+        displayBox1.style.display = 'block';
+        displayBox2.style.display = 'block';
+
+        // 清除 displayBox1 和 displayBox2 中的原有文字内容
+        displayBox1.textContent = '';
+        displayBox2.textContent = '';
+        select_text(index + 1)
+        // 等待逐字显示完成
+        await Promise.all([
+            typeText(OriginalContent, displayBox1),
+            typeText(repairContent, displayBox2)
+        ]);
+
+        // 显示完成后，启用 repairButton 并重置状态
+        isInProgress = false;
+        repairButton.disabled = false; // 启用按钮
+
+        console.log('Both texts finished typing!');
+    }, 3000);
+});
 
 // Play/pause on click
 wavesurfer1.on('interaction', () => {
@@ -777,6 +850,104 @@ wavesurfer2.on('interaction', () => {
         });
     }
 
+// 获取所有 Example 按钮
+const exampleButtons = document.querySelectorAll('.example-btn');
+
+
+// 添加点击事件监听器
+exampleButtons.forEach((button, index) => {
+    button.addEventListener('click', () => {
+        // 如果正在处理当前操作，直接返回，阻止再次触发
+        if (isInProgress) return;
+
+        // 设置处理中的状态
+        isInProgress = true;
+        button.disabled = true; // 禁用按钮
+
+        // 移除其他按钮的选中状态
+        exampleButtons.forEach(btn => btn.classList.remove('selected'));
+
+        // 为当前点击的按钮添加选中状态
+        button.classList.add('selected');
+
+        // 加载相应的音频文件
+        selectExample(index + 1);
+
+        // 显示加载动画
+        loader.style.display = 'flex';
+
+        // 模拟加载动画，4秒后显示完成文本并隐藏加载动画
+        setTimeout(async () => {
+            loader.style.display = 'none'; // 隐藏加载动画
+            wavesurfer2.load(`audio/repair_${index+1}.mp3`);
+            wavesurfer1.load(`audio/original_${index+1}.mp3`);
+
+            // 清除 displayBox1 和 displayBox2 中的原有文字内容
+            displayBox1.textContent = '';
+            displayBox2.textContent = '';
+            displayBox1.style.display = 'block';
+            displayBox2.style.display = 'block';
+            select_text(index + 1)
+            // 同时开始显示两段文本
+            await Promise.all([
+                typeText(OriginalContent, displayBox1),
+                typeText(repairContent, displayBox2)
+            ]);
+
+            // 操作完成后启用按钮并重置状态
+            isInProgress = false;
+            button.disabled = false; // 启用按钮
+
+            console.log('Both texts finished typing!');
+        }, 3000);
+    });
+});
+
+// 逐字显示函数
+function typeText(text, container, delay = 10) {
+    return new Promise((resolve) => {
+        let charIndex = 0;
+        const interval = setInterval(() => {
+            if (charIndex < text.length) {
+                container.textContent += text[charIndex];
+                charIndex++;
+            } else {
+                clearInterval(interval);
+                resolve(); // 完成显示后resolve
+            }
+        }, delay);
+    });
+}
+
+
+// 加载音频文件的函数
+function selectExample(exampleNumber) {
+    const fileName = `repair_${exampleNumber}.mp3`;
+    console.log(`Example ${exampleNumber} selected, loading ${fileName}`);
+
+
+}
+
+function select_text(randomIndex){
+    switch (randomIndex) {
+        case 1:
+            repairContent = repairContent_1;
+            OriginalContent = OriginalContent_1;
+            break;
+        case 2:
+            repairContent = repairContent_2;
+            OriginalContent = OriginalContent_2;
+            break;
+        case 3:
+            repairContent = repairContent_3;
+            OriginalContent = OriginalContent_3;
+            break;
+        case 4:
+            repairContent = repairContent_4;
+            OriginalContent = OriginalContent_4;
+            break;
+    }
+}
 
 
 </script>

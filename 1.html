@@ -1,0 +1,42 @@
+<div class="container" id="container1">
+    <div class="content-area-wrapper">
+        <!-- 示例选择按钮区域 -->
+        <div class="example-selector">
+            <button onclick="selectExample(1)">Example 1</button>
+            <button onclick="selectExample(2)">Example 2</button>
+            <button onclick="selectExample(3)">Example 3</button>
+            <button onclick="selectExample(4)">Example 4</button>
+        </div>
+
+        <!-- 上传文件区域 -->
+        <div class="content-area1">
+            <div class="action-area">
+                <p id="statusText" class="status-text">Upload an audio file or start recording</p>
+                <p><button onclick="document.getElementById('fileInput').click();">Upload File</button></p>
+                <input type="file" id="fileInput" accept="audio/*" class="hidden" onchange="updateStatusText()">
+                <button id="startRecord" style="margin-top: 10px;">Start Recording</button>
+                <button id="stopRecord" class="hidden" style="margin-top: 10px;">Stop Recording</button>
+                <div id="timer" style="display: none;">00:00</div>
+                <p><button id="repairButton">Repair</button></p>
+                <div class="loader" id="loader">
+                    <!-- Loading animation here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const wavesurfer1 = WaveSurfer.create({
+        container: '#waveform1',
+        waveColor: gradient,
+        progressColor: progressGradient,
+        barWidth: 2,
+    });
+
+    function selectExample(exampleNumber) {
+        const fileName = `repair${exampleNumber}.wav`;
+        wavesurfer1.load(fileName);
+        alert(`Example ${exampleNumber} selected, loading ${fileName}`);
+    }
+</script>
